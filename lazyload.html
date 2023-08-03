@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lazy Load مثال</title>
+</head>
+<body>
+    <h1>مثال Lazy Load</h1>
+    <p>اینجا چند تصویر قرار دارد که با استفاده از Lazy Load بارگذاری خواهند شد.</p>
+    <img data-src="./Images/th (3).png" width="300" height="200" alt="تصویر 1">
+    <br/>
+    <img data-src="./Images/th (4).png" width="300" height="200" alt="تصویر 1"> <br/>
+    <img data-src="./Images/th (5).png" width="300" height="200" alt="تصویر 1"> <br/>
+    <img data-src="./Images/th (6).png" width="300" height="200" alt="تصویر 1">
+
+
+    <script>
+        // اتصال به رویداد scroll برای بارگذاری تصاویر
+        document.addEventListener("DOMContentLoaded", function() {
+            let lazyImages = document.querySelectorAll("img[data-src]");
+            const imageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute("data-src");
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            lazyImages.forEach(function(img) {
+                imageObserver.observe(img);
+            });
+        });
+    </script>
+</body>
+</html>
